@@ -1,0 +1,33 @@
+﻿@using EnumHelper_Test.Models;
+
+@model StoreModel
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@using (Html.BeginForm("Action", "Home"))
+{
+    <div>
+        @Html.LabelFor(x=>x.Address)
+        @Html.TextBoxFor(x=>x.Address)
+    </div>
+    
+    <div>
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email)
+    </div>
+    
+    <div>
+        Availble Items:
+        @Html.EnumListBoxFor(x => x.theA.theB.AllItemTypes.AddItems("XXX", "YYY").AddItems(new EnumItem(1024, "OBJ")).SetSelectedItem(true, 1, 4, 100))
+    </div>
+
+    <div>
+        Availble Items:
+        @Html.EnumDropDownListFor(x => x.theA.theB.user.InsertItems("All").SetSelectedItem(true,"aLl"))
+    </div>
+    
+    <button type="submit">Submit</button>
+}
