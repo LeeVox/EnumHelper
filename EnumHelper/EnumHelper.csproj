@@ -74,7 +74,7 @@
   <ItemGroup>
     <Compile Include="EnumHelper\EnumHelper.cs" />
     <Compile Include="EnumSelectListHelper\EnumItem.cs" />
-    <Compile Include="EnumSelectListHelper\EnumModelBinding.cs" />
+    <Compile Include="EnumSelectListHelper\FlagEnumModel.cs" />
     <Compile Include="EnumSelectListHelper\EnumSelectionListExtension.cs" />
     <Compile Include="EnumSelectListHelper\EnumSelectList.cs" />
     <Compile Include="EnumSelectListHelper\EnumSelectListHelper.cs" />

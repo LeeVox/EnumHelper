@@ -1,32 +1,35 @@
 ﻿@using EnumHelper_Test.Models;
 
-@model StoreModel
+@model Student
 @{
     ViewBag.Title = "Index";
 }
 
 <h2>Index</h2>
 
-@using (Html.BeginForm("Action", "Home"))
+@using (Html.BeginForm("SubmitAction", "Home"))
 {
     <div>
-        @Html.LabelFor(x=>x.Address)
-        @Html.TextBoxFor(x=>x.Address)
+        @Html.LabelFor(x=>x.PersonalInfo.Name)
+    </div>
+    <div>
+        @Html.TextBoxFor(x=>x.PersonalInfo.Name)
     </div>
     
     <div>
-        @Html.LabelFor(x => x.Email)
-        @Html.TextBoxFor(x => x.Email)
+        @Html.LabelFor(x => x.PersonalInfo.Gender)
+    </div>
+    <div>
+        @Html.EnumDropDownListFor(x => x.PersonalInfo.Gender)
     </div>
     
     <div>
-        Availble Items:
-        @Html.EnumListBoxFor(x => x.theA.theB.AllItemTypes.AddItems("XXX", "YYY").AddItems(new EnumItem(1024, "OBJ")).SetSelectedItem(true, 1, 4, 100))
+        @Html.LabelFor(x=>x.AttendedCourses)
     </div>
-
     <div>
-        Availble Items:
-        @Html.EnumDropDownListFor(x => x.theA.theB.user.InsertItems("All").SetSelectedItem(true,"aLl"))
+        @Html.EnumListBoxFor(x => x.AttendedCourses.InsertItems(0, new EnumItem(EnumHelper_Test.Controllers.HomeController.ALL_COUSES_ID,"All Courses")),
+                new { size = 8 }
+        )
     </div>
     
     <button type="submit">Submit</button>

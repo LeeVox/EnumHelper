@@ -6,13 +6,14 @@ namespace EnumHelper_Test.Controllers
 {
     public class HomeController : Controller
     {
-        private StoreModel getSampleModel()
+        public const int ALL_COUSES_ID = 4096;
+
+        private Student getSampleModel()
         {
-            return new StoreModel()
+            return new Student()
             {
-                theA = new A() { theB = new B() { user = UserType.Reseller, AllItemTypes = ItemType.Desktop | ItemType.Laptop | ItemType.Phone } },
-                Address = "www.amazon.com",
-                Email = "info@amazon.com"
+                PersonalInfo = new PersonalInfo() { Name = "Bob", Gender = Gender.Female },
+                AttendedCourses = Course.ComputerSicene | Course.Math | Course.Chemistry | Course.Philosophy
             };
         }
 
@@ -20,11 +21,25 @@ namespace EnumHelper_Test.Controllers
         {
             return View(getSampleModel());
         }
-        
-        [EnumModelBindingAttribute]
-        public string Action(StoreModel model)
+
+        [FlagEnumModel] // Use this attribute in case of using Flag Enum (AttendedCourses)
+        public string SubmitAction(Student model)
         {
-            return "";
+            string result = string.Format(@"Name: {0}<br /> Gender: {1}<br />",
+                    model.PersonalInfo.Name,
+                    model.PersonalInfo.Gender.GetDescription() // Should use GetDescription() instead of ToString()
+                );
+
+            if (model.AttendedCourses.HasFlag(ALL_COUSES_ID))
+            {
+                result += "Courses: All";
+            }
+            else
+            {
+                result += "Course: " + model.AttendedCourses.GetDescription();
+            }
+
+            return result;
         }
     }
 }
