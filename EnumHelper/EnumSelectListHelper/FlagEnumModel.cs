@@ -1,11 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace System
 {
-	[AttributeUsage(AttributeTargets.All, AllowMultiple = true)]
     public class FlagEnumModelAttribute : ActionFilterAttribute
     {
         /// <summary>
@@ -15,24 +14,24 @@ namespace System
 
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            var model = filterContext.ActionParameters["model"];
+            if (filterContext.ActionParameters.Count <= 0)
+                return;
 
             // get all parameters which are in legal form of Enum type
             var form = filterContext.HttpContext.Request.Form;
-            var flagEnumFields = new Dictionary<string, string>();
+            var flagEnumFields = new Dictionary<string, int>();
+            int? tmp = null;
             foreach (string key in form.AllKeys)
             {
-                if (rgxCheckFlagEnum.IsMatch(form[key]))
-                    flagEnumFields.Add(key, form[key]);
+                if (rgxCheckFlagEnum.IsMatch(form[key]) && (tmp = CombineToFlagEnum(form[key])) != null)
+                    flagEnumFields.Add(key, tmp.Value);
             }
-
-            // trying to bind those parameters values to Enum
-            foreach (var flagEnumField in flagEnumFields)
+            
+            foreach (var flagEnum in flagEnumFields)
             {
-                var enumValue = CombineToFlagEnum(flagEnumField.Value);
-                if (enumValue.HasValue)
+                foreach (var model in filterContext.ActionParameters)
                 {
-                    SetPropertyOrField(model, flagEnumField.Key.Split('.').AsEnumerable(), enumValue.Value);
+                    SetPropertyOrField(model.Value, flagEnum.Key.Split('.').AsEnumerable(), flagEnum.Value);
                 }
             }
         }
