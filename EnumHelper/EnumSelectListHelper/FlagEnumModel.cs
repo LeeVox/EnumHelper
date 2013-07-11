@@ -24,7 +24,9 @@ namespace System
             foreach (string key in form.AllKeys)
             {
                 if (rgxCheckFlagEnum.IsMatch(form[key]) && (tmp = CombineToFlagEnum(form[key])) != null)
+                {
                     flagEnumFields.Add(key, tmp.Value);
+                }
             }
             
             foreach (var flagEnum in flagEnumFields)
@@ -50,7 +52,10 @@ namespace System
             {
                 if (path.Count() == 1)
                 {
-                    propertyInfo.SetValue(obj, value, null);
+                    if (propertyInfo.PropertyType.IsEnum)
+                    {
+                        propertyInfo.SetValue(obj, value, null);
+                    }
                 }
                 else
                 {
@@ -71,7 +76,10 @@ namespace System
                 {
                     if (path.Count() == 1)
                     {
-                        fieldInfo.SetValue(obj, value);
+                        if (fieldInfo.FieldType.IsEnum)
+                        {
+                            fieldInfo.SetValue(obj, value);
+                        }
                     }
                     else
                     {
@@ -100,7 +108,13 @@ namespace System
             if (array.Length > 0)
             {
                 ret = 0;
-                array.ToList().ForEach(x => ret = ret | int.Parse(x));
+                int tmp = 0;
+                array.ToList().ForEach(
+                    x => {
+                        int.TryParse(x, out tmp);
+                        ret = ret | tmp;
+                    }
+                );
             }
 
             return ret;

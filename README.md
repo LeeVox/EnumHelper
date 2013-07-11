@@ -20,7 +20,7 @@ How to use
 For sample, you have this model:
 
 ```csharp
-[Flag]
+[Flags]
 public enum UserType
 {
     Admin = 1,
@@ -117,6 +117,7 @@ Change Logs
 ------------
  *      Version     	Date            Description
  
+ *      1.0 Build 3		Jul-11-2013     Fixed bug if property/field type is not Enum
  *      1.0 Build 2		Jul-08-2013     Fixed bug FlagEnumModelAttribute cannot handle parameters which name is different to 'model'
  *      1.0				Jul-08-2013     Supported binding enum to model fields.
  *      1.0 RC 1		Jul-05-2013     Supported binding multi values Enum (Flag Enum) type to Model.
